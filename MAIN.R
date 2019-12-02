@@ -49,9 +49,12 @@ GetSurroundingHours <- function(start_hour)
 
 path_mataa = "C:\\Users\\amata\\Desktop\\PLIKI_PPD\\PPD_DATES\\"
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
-path_rytelk = "..."
+path_rytelk = "/home/krystian/Documents/PredictBus/"
 
-path = path_czarnockig # change this
+path = path_rytelk # change this
+source(paste(path,"BusesRepository.R",sep=''))
+buses <- GetBuses('172', '3027-Dolna', as.POSIXct(strptime("2018-05-21 09:30:00", "%Y-%m-%d %H:%M:%S")))
+
 filename = "PART_1.csv"
 lab_data = read.csv(paste(path, filename, sep=''), sep = ';')
 sql_file_name = "filter_data.sql"
@@ -61,11 +64,13 @@ current_time <- as.POSIXct(strptime("2018-05-21 09:30:00", "%Y-%m-%d %H:%M:%S"))
 lineNumber <- "172"
 busStop <- "3027-Dolna"
 
+
+
 current_hour = as.numeric(format(current_time, "%H"))
 
 sql_script = readtext(paste(path, sql_file_name, sep=''))
 
-# godzina w przód, i w ty³
+# godzina w prz?d, i w ty?
 sql_script = sql_script$text %>%
   str_replace_all(">line_num<", lineNumber) %>%
   str_replace_all(">bus_stop<", busStop) %>%
