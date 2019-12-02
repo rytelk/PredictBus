@@ -2,7 +2,11 @@ library(plyr)
 library(dplyr)
 library(rpart)
 
-path = "C:\\Users\\amata\\Desktop\\PLIKI_PPD\\PPD_DATES\\"
+path_mataa = "C:\\Users\\amata\\Desktop\\PLIKI_PPD\\PPD_DATES\\"
+path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
+path_rytelk = "..."
+
+path = path_mataa # change this
 filename = "PART_1.csv"
 lab_data = read.csv(paste(path, filename, sep=''), sep = ';')
 
