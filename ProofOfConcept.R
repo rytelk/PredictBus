@@ -76,3 +76,17 @@ sql_script = sql_script$text %>%
 
 df <- read.csv.sql(paste(folder_path, file_name, sep=''), header = TRUE, sep = ";", eol = "\n", sql = sql_script)
 
+# Rozwi¹zanie Adama:
+
+# odejmujemy 10 minut od daty wejsciowej
+#lower_bound <- current_time - 10 * 60
+
+# dodajemy 10 minut do daty wejsciowej
+#upper_bound <- current_time + 10 * 60
+
+# frame do selekcji danych
+#df <- lab_data %>%
+#  filter( as.POSIXct(strptime(timeDatetime, "%Y-%m-%d %H:%M:%S")) < upper_bound ) %>%
+#  filter( as.POSIXct(strptime(timeDatetime, "%Y-%m-%d %H:%M:%S")) > lower_bound ) %>%
+#  filter( lineString == lineNumber ) %>%
+#  filter( nextStopString == busStop )

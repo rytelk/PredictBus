@@ -73,21 +73,6 @@ sql_script = sql_script$text %>%
 
 df <- read.csv.sql(paste(path, filename, sep=''), header = TRUE, sep = ";", eol = "\n", sql = sql_script)
 
-# dodaæ wyci¹gniêcie danych z ca³ego tygodnia
-
-# odejmujemy 10 minut od daty wejsciowej
-#lower_bound <- current_time - 10 * 60
-
-# dodajemy 10 minut do daty wejsciowej
-#upper_bound <- current_time + 10 * 60
-
-# frame do selekcji danych
-#df <- lab_data %>%
-#  filter( as.POSIXct(strptime(timeDatetime, "%Y-%m-%d %H:%M:%S")) < upper_bound ) %>%
-#  filter( as.POSIXct(strptime(timeDatetime, "%Y-%m-%d %H:%M:%S")) > lower_bound ) %>%
-#  filter( lineString == lineNumber ) %>%
-#  filter( nextStopString == busStop )
-
 # frame do testow
 df_learn <- df %>%
   select(delayLet, timeDatetime)
