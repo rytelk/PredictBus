@@ -36,6 +36,7 @@ df_test <- data.frame(paramLineString, current_time_hour, current_time_is_weeken
 colnames(df_test) <- c("lineString", "hour", "isWeekend")
 
 # predykcja
+cart.tree <- rpart(delay ~ lineString + hour + isWeekend, data = buses)
 cart.tree.pred <- predict(cart.tree, df_test)
 summary(cart.tree)
 
