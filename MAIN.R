@@ -3,14 +3,16 @@ library(dplyr)
 library(rpart)
 library(lubridate)
 library(sqldf)
-library(stringr) # string manipulation
-library(readtext) #reading files
+library(stringr)
+library(readtext)
+
+Sys.setlocale("LC_TIME", "C")
 
 path_mataa = "C:\\Users\\amata\\Desktop\\PLIKI_PPD\\PPD_DATES\\"
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
 path_rytelk = "/home/krystian/Documents/PredictBus/"
 
-path = path_czarnockig # change this
+path = path_rytelk
 source(paste(path,"BusesRepository.R",sep=''))
 
 bus_stop = '3027-Dolna'
