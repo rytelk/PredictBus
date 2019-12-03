@@ -6,54 +6,14 @@ library(sqldf)
 library(stringr) # string manipulation
 library(readtext) #reading files
 
-CastHourToString <- function(num_hour)
-{
-  if( num_hour < 10 )
-  {
-    return( paste("0", toString(num_hour), sep='') )
-  }
-  else
-  {
-    return( toString(num_hour) )
-  }  
-}
-
-GetSurroundingHours <- function(start_hour)
-{
-  s_start_hour = CastHourToString(start_hour)
-  s_prev_hour = ''
-  s_next_hour = ''
-  
-  if(start_hour == 0)
-  {
-    s_prev_hour = CastHourToString(23)
-  }
-  else
-  {
-    s_prev_hour = CastHourToString(start_hour - 1)
-  }
-  
-  
-  if(start_hour == 23)
-  {
-    s_next_hour = CastHourToString(0)
-  }
-  else
-  {
-    s_next_hour = CastHourToString(start_hour + 1)
-  }
-  
-  return( paste("'", s_prev_hour, "','", s_start_hour, "','", s_next_hour, "'", sep='') )
-  
-}
-
 path_mataa = "C:\\Users\\amata\\Desktop\\PLIKI_PPD\\PPD_DATES\\"
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
 path_rytelk = "/home/krystian/Documents/PredictBus/"
 
 path = path_rytelk # change this
 source(paste(path,"BusesRepository.R",sep=''))
-buses <- GetBuses('172', '3027-Dolna', as.POSIXct(strptime("2018-05-21 09:30:00", "%Y-%m-%d %H:%M:%S")))
+
+buses <- GetBuses('7032-Chmielna')
 
 filename = "PART_1.csv"
 lab_data = read.csv(paste(path, filename, sep=''), sep = ';')

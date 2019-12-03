@@ -1,17 +1,15 @@
 source(paste(path,"TimeUtils.R",sep=''))
 
-GetBuses <- function(line_num, bus_stop, query_time)
+GetBuses <- function(bus_stop)
 {
   library(RSQLite)
   library(stringr)
   
-  conn <- dbConnect(RSQLite::SQLite(), "Buses")
+  conn <- dbConnect(RSQLite::SQLite(), "Buses.db")
   
-  limit <- 5; 
+  sqlQuery <- str_interp('select * from Buses where nextStopString = "${bus_stop}";')
   
-  sqlQuery <- str_interp("SELECT * FROM Buses LIMIT 5;")
   buses <- dbGetQuery(conn, sqlQuery)
-    
   dbDisconnect(conn)
   
   return(buses)
