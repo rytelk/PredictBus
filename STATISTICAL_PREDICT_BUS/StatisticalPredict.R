@@ -3,7 +3,7 @@
 GLOBAL_bus_stop_id <- '3027'
 GLOBAL_bus_line <- 'N81'
 GLOBAL_query_datetime <- '2018-05-21 00:04:41'
-GLOBAL_seconds_margin <- toString(120)
+GLOBAL_seconds_margin <- 800
 # --------------------------------------------------------------------------------
 # load libraries
 library(plyr)
@@ -57,12 +57,28 @@ connection <- dbConnect(RSQLite::SQLite(), db_filename)
 
 # --------------------------------------------------------------------------------
 # predict delay
+
+left_end <- as.POSIXct(GLOBAL_query_datetime) - GLOBAL_seconds_margin
+right_end <- as.POSIXct(GLOBAL_query_datetime) + GLOBAL_seconds_margin
+l_date <- as.Date(ymd_hms(left_end))
+r_date <- as.Date(ymd_hms(right_end))
+
+if( l_date == r_date )
+{
+  EXTRACT_is_midnight_broken <- '0'
+} else {
+  EXTRACT_is_midnight_broken <- '1'
+}
+
+
+
 main_sql_file_path <- paste(path, "AveragePredictForR.sql", sep = '')
 main_sql_code <- getSQL(main_sql_file_path)
 main_sql_code <- str_replace_all(main_sql_code, '>>BUS_STOP_ID<<', GLOBAL_bus_stop_id)
 main_sql_code <- str_replace_all(main_sql_code, '>>BUS_LINE<<', GLOBAL_bus_line)
 main_sql_code <- str_replace_all(main_sql_code, '>>QUERY_DATETIME<<', GLOBAL_query_datetime)
-main_sql_code <- str_replace_all(main_sql_code, '>>SECONDS_MARGIN<<', GLOBAL_seconds_margin)
+main_sql_code <- str_replace_all(main_sql_code, '>>SECONDS_MARGIN<<', toString(GLOBAL_seconds_margin))
+main_sql_code <- str_replace_all(main_sql_code, '>>IS_MIDNIGHT_BROKEN<<', EXTRACT_is_midnight_broken)
 
 main_buses_data <- dbGetQuery(connection, main_sql_code)
 predicted_delay <- main_buses_data$total_delay / main_buses_data$total_denominator
