@@ -1,0 +1,2 @@
+sqlite3.exe Buses.db -header -column < AveragePredict.sql > output.txt
+sqlite3.exe Buses.db -header -column < sample.sql > sample_output.txt
