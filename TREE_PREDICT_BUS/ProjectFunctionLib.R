@@ -29,7 +29,7 @@ getSQL <- function(filepath)
 makePrediction <- function (path, connection, INPUT_bus_stop_id, INPUT_bus_line, INPUT_query_datetime)
 {
     # get learn data
-    tree_sql_file_path <- paste(path, "TreePredict.sql", sep = '')
+    tree_sql_file_path <- paste(path, "TreePredictForR.sql", sep = '')
     tree_sql_code <- getSQL(tree_sql_file_path)
     tree_sql_code <- str_replace_all(tree_sql_code, '>>BUS_STOP_ID<<', INPUT_bus_stop_id)
     tree_buses_data <- dbGetQuery(connection, tree_sql_code)
