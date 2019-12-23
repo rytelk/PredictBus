@@ -71,7 +71,7 @@ makePrediction <- function (path, connection, INPUT_bus_stop_id, INPUT_bus_line,
     percentage_error <- abs(predicted_delay - real_world_delay) / abs(real_world_delay)
     predict_error <- real_world_delay - predicted_delay
     
-    df <- data.frame(real_world_delay, real_world_arrival_datetime, predicted_delay, percentage_error, predict_error)
+    df <- data.frame(real_world_delay, as.character(real_world_arrival_datetime), predicted_delay, percentage_error, predict_error)
     colnames(df) <- c('real_delay', 'schedule_arrival_time', 'predicted_delay', 'predict_percentage_error', 'predict_error')
     
     return(df)

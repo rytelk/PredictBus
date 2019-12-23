@@ -1,13 +1,4 @@
 # --------------------------------------------------------------------------------
-# Parameters of prediction
-# TODO - get full frame of input data
-GLOBAL_bus_stop_id <- '3027'
-GLOBAL_bus_line <- 'N81'
-GLOBAL_query_datetime <- '2018-05-21 00:04:41'
-
-input_df <- data.frame(GLOBAL_bus_stop_id, GLOBAL_bus_line, GLOBAL_query_datetime, stringsAsFactors = FALSE)
-colnames(input_df) <- c('bus_stop_id', 'bus_line', 'query_datetime')
-# --------------------------------------------------------------------------------
 # load libraries
 library(plyr)
 library(dplyr)
@@ -18,6 +9,7 @@ library(stringr)
 library(readtext)
 library(RSQLite)
 library(caret)
+library(randomForest)
 # --------------------------------------------------------------------------------
 # set main path
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
@@ -25,6 +17,17 @@ path_rytelk = "/home/krystian/Documents/PredictBus/"
 path_mataa = "C:/Users/amata/Desktop/PPD-REPO/FOREST_PREDICT/"
 
 path = path_mataa
+# --------------------------------------------------------------------------------
+# Parameters of prediction
+input_df_temp <- read.csv(paste(path, 'SampleData.csv', sep = ''), sep = ';')
+input_df <- data.frame(
+  as.character(input_df_temp$bus_stop_id),
+  as.character(input_df_temp$bus_line),
+  as.character(input_df_temp$query_datetime),
+  stringsAsFactors = FALSE
+)
+colnames(input_df) <- c('bus_stop_id', 'bus_line', 'query_datetime')
+rm(input_df_temp)
 # --------------------------------------------------------------------------------
 # function to get sql from file
 source(paste(path, 'ForestPredictLib.R', sep = ''))
@@ -37,7 +40,7 @@ connection <- dbConnect(RSQLite::SQLite(), db_filename)
 # perform prediction
 main_output_df <- data.frame(
                              real_delay <- numeric(),
-                             schedule_arrival_time <- factor(),
+                             schedule_arrival_time <- character(),
                              predicted_delay <- numeric(),
                              predict_percentage_error <- numeric(),
                              predict_error <- numeric()

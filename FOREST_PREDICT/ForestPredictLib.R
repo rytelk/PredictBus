@@ -35,8 +35,7 @@ makeForestPrediction <- function(path, connection, INPUT_bus_stop_id, INPUT_bus_
     forest_buses_data <- dbGetQuery(connection, forest_sql_code)
     # --------------------------------------------------------------------------------
     # build predict model using random forest
-    train.control.cross_validation <- trainControl(method = 'cv', number = 10)
-    model_rf <- train(delay ~ lineString + isWeekend + hour, data = forest_buses_data, method = 'rf', trControl = train.control.cross_validation)
+    model_rf <- randomForest(delay ~ lineString + isWeekend + hour, data = forest_buses_data)
     # --------------------------------------------------------------------------------
     # prepare test data frame
 
@@ -71,7 +70,7 @@ makeForestPrediction <- function(path, connection, INPUT_bus_stop_id, INPUT_bus_
     # predict_error = real_world_delay - predicted_delay
     predict_error <- real_world_delay - predicted_delay
     
-    df <- data.frame(real_world_delay, real_world_arrival_datetime, predicted_delay, percentage_error, predict_error)
+    df <- data.frame(real_world_delay, as.character(real_world_arrival_datetime), predicted_delay, percentage_error, predict_error, stringsAsFactors = FALSE)
     colnames(df) <- c('real_delay', 'schedule_arrival_time', 'predicted_delay', 'predict_percentage_error', 'predict_error')
     
     return(df)
