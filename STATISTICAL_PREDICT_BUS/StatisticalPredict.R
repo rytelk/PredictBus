@@ -1,14 +1,6 @@
 # --------------------------------------------------------------------------------
-# Parameters of prediction
-# TODO - get full frame of input data
-
-GLOBAL_bus_stop_id <- '3027'
-GLOBAL_bus_line <- 'N81'
-GLOBAL_query_datetime <- '2018-05-21 00:04:41'
-GLOBAL_seconds_margin <- 800
-
-input_df = data.frame(GLOBAL_bus_stop_id, GLOBAL_bus_line, GLOBAL_query_datetime, GLOBAL_seconds_margin, stringsAsFactors = FALSE)
-colnames(input_df) <- c('bus_stop_id', 'bus_line', 'query_datetime', 'seconds_margin')
+# Global parameter
+GLOBAL_seconds_margin <- 800 # margin to download data
 # --------------------------------------------------------------------------------
 # load libraries
 library(plyr)
@@ -27,6 +19,18 @@ path_mataa = "C:/Users/amata/Desktop/PPD-REPO/STATISTICAL_PREDICT_BUS/"
 
 path = path_mataa
 # --------------------------------------------------------------------------------
+# Parameters of prediction
+input_df_temp <- read.csv(paste(path, 'SampleData.csv', sep = ''), sep = ';')
+input_df <- data.frame(
+  as.character(input_df_temp$bus_stop_id),
+  as.character(input_df_temp$bus_line),
+  as.character(input_df_temp$query_datetime),
+  rep(GLOBAL_seconds_margin, length(input_df_temp$bus_line)),
+  stringsAsFactors = FALSE
+  )
+colnames(input_df) <- c('bus_stop_id', 'bus_line', 'query_datetime', 'seconds_margin')
+rm(input_df_temp)
+# --------------------------------------------------------------------------------
 # get functions
 source(paste(path, 'ProjectFunctionsLibrary.R', sep = ''))
 # --------------------------------------------------------------------------------
@@ -37,7 +41,7 @@ connection <- dbConnect(RSQLite::SQLite(), db_filename)
 # predict delay
 main_output_df <- data.frame(
                              real_delay <- numeric(),
-                             schedule_arrival_time <- factor(),
+                             schedule_arrival_time <- character(),
                              predicted_delay <- numeric(),
                              predict_percentage_error <- numeric(),
                              predict_error <- numeric()
