@@ -39,7 +39,8 @@ main_output_df <- data.frame(
                              real_delay <- numeric(),
                              schedule_arrival_time <- factor(),
                              predicted_delay <- numeric(),
-                             predict_percentage_error <- numeric()
+                             predict_percentage_error <- numeric(),
+                             predict_error <- numeric()
                             )
 
 for(current_row in 1:nrow(input_df))

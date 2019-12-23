@@ -66,10 +66,11 @@ statisticalPredict <- function(path, connection, INPUT_seconds_margin, INPUT_bus
     # --------------------------------------------------------------------------------
     # compute error
     statistical_predict_error <- abs(predicted_delay - real_world_delay) / abs(real_world_delay)
+    predict_error <- real_world_delay - predicted_delay
     # --------------------------------------------------------------------------------
     
-    df <- data.frame(real_world_delay, real_world_arrival_datetime, predicted_delay, statistical_predict_error);
-    colnames(df) <- c('real_delay', 'schedule_arrival_datetime', 'predicted_delay', 'predicted_percentage_error')
+    df <- data.frame(real_world_delay, real_world_arrival_datetime, predicted_delay, statistical_predict_error, predict_error);
+    colnames(df) <- c('real_delay', 'schedule_arrival_datetime', 'predicted_delay', 'predicted_percentage_error' , 'predict_error')
     
     return(df)
 }
