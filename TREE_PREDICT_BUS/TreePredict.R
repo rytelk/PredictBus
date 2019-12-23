@@ -21,7 +21,7 @@ library(RSQLite)
 # set main path
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
 path_rytelk = "/home/krystian/Documents/PredictBus/"
-path_mataa = "C:/Users/amata/Desktop/TREE_PREDICT_BUS/"
+path_mataa = "C:/Users/amata/Desktop/PPD-REPO/TREE_PREDICT_BUS/"
 
 path = path_mataa
 # --------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ library(caret)
 # set main path
 path_czarnockig = "C:\\Development\\_university\\PredictBus\\"
 path_rytelk = "/home/krystian/Documents/PredictBus/"
-path_mataa = "C:/Users/amata/Desktop/FOREST_PREDICT/"
+path_mataa = "C:/Users/amata/Desktop/PPD-REPO/FOREST_PREDICT/"
 
 path = path_mataa
 # --------------------------------------------------------------------------------
