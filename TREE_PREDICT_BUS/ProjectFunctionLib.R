@@ -46,13 +46,13 @@ makePrediction <- function (path, connection, INPUT_bus_stop_id, INPUT_bus_line,
 
     if( EXTRACTED_day_of_week == "Saturday" || EXTRACTED_day_of_week == "Sunday" )
     {
-      EXTACTED_is_weekend <- 1
+      EXTACTED_is_weekend <- as.integer(1)
     } else {
-      EXTACTED_is_weekend <- 0
+      EXTACTED_is_weekend <- as.integer(0)
     }
 
     df_test = data.frame(INPUT_bus_line, EXTACTED_is_weekend, EXTRACTED_hour)
-    colnames(df_test) <- c("lineString", "hour", "isWeekend")
+    colnames(df_test) <- c("lineString", "isWeekend", "hour")
     # --------------------------------------------------------------------------------
     # make prediction
     cart.tree.pred <- predict(cart.tree, df_test)

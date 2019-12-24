@@ -33,25 +33,32 @@ makeForestPrediction <- function(path, connection, INPUT_bus_stop_id, INPUT_bus_
     forest_sql_code <- getSQL(forest_sql_file_path)
     forest_sql_code <- str_replace_all(forest_sql_code, '>>BUS_STOP_ID<<', INPUT_bus_stop_id)
     forest_buses_data <- dbGetQuery(connection, forest_sql_code)
+    forest_buses_data$lineString <- as.factor(forest_buses_data$lineString)
     # --------------------------------------------------------------------------------
     # build predict model using random forest
     model_rf <- randomForest(delay ~ lineString + isWeekend + hour, data = forest_buses_data)
     # --------------------------------------------------------------------------------
     # prepare test data frame
 
+    #INPUT_query_datetime <- '2018-05-21 00:04:41'
+    #INPUT_bus_line <- 'N81'
+    #INPUT_bus_stop_id <- '3027'
+    
+    
     EXTRACTED_POSIX_query_datetime <- as.POSIXct(strptime(INPUT_query_datetime, "%Y-%m-%d %H:%M:%S"))
     EXTRACTED_hour <- as.integer(hour(EXTRACTED_POSIX_query_datetime))
     EXTRACTED_day_of_week <- weekdays(EXTRACTED_POSIX_query_datetime)
 
     if( EXTRACTED_day_of_week == "Saturday" || EXTRACTED_day_of_week == "Sunday" )
     {
-      EXTACTED_is_weekend <- 1
+      EXTACTED_is_weekend <- as.integer(1)
     } else {
-      EXTACTED_is_weekend <- 0
+      EXTACTED_is_weekend <- as.integer(0)
     }
 
-    df_test = data.frame(INPUT_bus_line, EXTACTED_is_weekend, EXTRACTED_hour)
-    colnames(df_test) <- c("lineString", "hour", "isWeekend")
+    bus_line_factors <- factor(INPUT_bus_line, levels = levels(forest_buses_data$lineString))
+    df_test = data.frame(bus_line_factors, EXTACTED_is_weekend, EXTRACTED_hour)
+    colnames(df_test) <- c("lineString", "isWeekend", "hour")
     # --------------------------------------------------------------------------------
     forest_prediction <- predict(model_rf, df_test)
     predicted_delay <- as.double(forest_prediction)
